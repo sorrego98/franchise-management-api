@@ -15,10 +15,13 @@ public class RouterRest {
     public RouterFunction<ServerResponse> routerFunction(Handler handler) {
         return route(
                 POST("/api/franchises"),
-                handler::listenPOSTUseCase
+                handler::createFranchise
                 ).andRoute(
                         PUT("/api/franchises/{id}"),
-                handler::listenPUTUseCase
+                handler::updateFranchise
+                ).andRoute(
+                        POST("/api/branches"),
+                handler::createBranch
         );
     }
 }
