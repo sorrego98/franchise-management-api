@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.ServerResponse;
 
+import static org.springframework.web.reactive.function.server.RequestPredicates.GET;
 import static org.springframework.web.reactive.function.server.RequestPredicates.PUT;
 import static org.springframework.web.reactive.function.server.RequestPredicates.POST;
 import static org.springframework.web.reactive.function.server.RequestPredicates.DELETE;
@@ -38,6 +39,9 @@ public class RouterRest {
                 ).andRoute(
                 PUT("/api/products/{id}/stock"),
                 handler::updateStock
+                ).andRoute(
+                GET("/api/franchises/{franchiseId}/products/highest-stock"),
+                handler::higheststock
         );
     }
 }

@@ -16,6 +16,7 @@ import co.com.franchise.usecase.createproduct.CreateProductUseCase;
 import co.com.franchise.usecase.updateproduct.UpdateproductUseCase;
 import co.com.franchise.usecase.deleteproduct.DeleteproductUseCase;
 import co.com.franchise.usecase.updatestock.UpdatestockUseCase;
+import co.com.franchise.usecase.higheststock.HigheststockUseCase;
 import co.com.franchise.api.mapper.FranchiseMapper;
 
 @Component
@@ -29,16 +30,7 @@ private final CreateProductUseCase createProductUseCase;
 private final UpdateproductUseCase updateProductUseCase;
 private final DeleteproductUseCase deleteProductUseCase;
 private final UpdatestockUseCase updatestockUseCase;
-
-    public Mono<ServerResponse> listenGETUseCase(ServerRequest serverRequest) {
-        // useCase.logic();
-        return ServerResponse.ok().bodyValue("");
-    }
-
-    public Mono<ServerResponse> listenGETOtherUseCase(ServerRequest serverRequest) {
-        // useCase2.logic();
-        return ServerResponse.ok().bodyValue("");
-    }
+private final HigheststockUseCase higheststockUseCase;
 
     public Mono<ServerResponse> createFranchise(ServerRequest serverRequest) {
 
@@ -105,5 +97,13 @@ private final UpdatestockUseCase updatestockUseCase;
                 .map(UpdateProductStockRequest::getStock)
                 .flatMap(stock -> updatestockUseCase.execute(id, stock))
                 .flatMap(product -> ServerResponse.ok().bodyValue(product));
+    }
+
+    public Mono<ServerResponse> higheststock(ServerRequest serverRequest) {
+        String id = serverRequest.pathVariable("franchiseId");
+
+        return higheststockUseCase.execute(id)
+                .collectList()
+                .flatMap(products -> ServerResponse.ok().bodyValue(products));
     }
 }

@@ -7,6 +7,7 @@ import co.com.franchise.mongo.helper.AdapterOperations;
 import co.com.franchise.mongo.repository.BranchMongoRepository;
 import org.reactivecommons.utils.ObjectMapper;
 import org.springframework.stereotype.Repository;
+import reactor.core.publisher.Flux;
 
 @Repository
 public class BranchRepositoryAdapter extends AdapterOperations<
@@ -22,5 +23,11 @@ public class BranchRepositoryAdapter extends AdapterOperations<
 
         super(repository, mapper,
                 document -> mapper.map(document, Branch.class));
+    }
+
+    @Override
+    public Flux<Branch> findByFranchiseId(String franchiseId) {
+        return repository.findByFranchiseId(franchiseId)
+                .map(document -> mapper.map(document, Branch.class));
     }
 }
