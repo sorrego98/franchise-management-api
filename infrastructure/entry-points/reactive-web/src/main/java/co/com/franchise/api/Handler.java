@@ -13,6 +13,7 @@ import co.com.franchise.usecase.updatefranchise.UpdateFranchiseUseCase;
 import co.com.franchise.usecase.createbranch.CreatebranchUseCase;
 import co.com.franchise.usecase.updatebranch.UpdatebranchUseCase;
 import co.com.franchise.usecase.createproduct.CreateProductUseCase;
+import co.com.franchise.usecase.updateproduct.UpdateproductUseCase;
 import co.com.franchise.api.mapper.FranchiseMapper;
 
 @Component
@@ -23,6 +24,7 @@ private final UpdateFranchiseUseCase updateFranchiseUseCase;
 private final CreatebranchUseCase createbranchUseCase;
 private final UpdatebranchUseCase updatebranchUseCase;
 private final CreateProductUseCase createProductUseCase;
+private final UpdateproductUseCase updateProductUseCase;
 
     public Mono<ServerResponse> listenGETUseCase(ServerRequest serverRequest) {
         // useCase.logic();
@@ -48,8 +50,8 @@ private final CreateProductUseCase createProductUseCase;
         return serverRequest.bodyToMono(UpdateFranchiseRequest.class)
                 .map(FranchiseMapper::toDomain)
                 .flatMap(franchise -> updateFranchiseUseCase.execute(id, franchise))
-                .flatMap(updateFranchises ->
-                        ServerResponse.ok().bodyValue(updateFranchises)
+                .flatMap(updateFranchis ->
+                        ServerResponse.ok().bodyValue(updateFranchis)
                 );
     }
 
@@ -66,7 +68,7 @@ private final CreateProductUseCase createProductUseCase;
         return serverRequest.bodyToMono(UpdateBranchRequest.class)
                 .map(BranchMapper::toDomain)
                 .flatMap(branch -> updatebranchUseCase.execute(id, branch))
-                .flatMap(updateBranches -> ServerResponse.ok().bodyValue(updateBranches));
+                .flatMap(updateBranch -> ServerResponse.ok().bodyValue(updateBranch));
     }
 
     public Mono<ServerResponse> createProduct(ServerRequest serverRequest ) {
@@ -74,5 +76,14 @@ private final CreateProductUseCase createProductUseCase;
                 .map(ProductMapper::toDomain)
                 .flatMap(createProductUseCase::execute)
                 .flatMap(product-> ServerResponse.ok().bodyValue(product));
+    }
+
+    public Mono<ServerResponse> updateProduct(ServerRequest serverRequest ) {
+        String id = serverRequest.pathVariable("id");
+
+        return serverRequest.bodyToMono(UpdateProductRequest.class)
+                .map(ProductMapper::toDomain)
+                .flatMap(product -> updateProductUseCase.execute(id, product))
+                .flatMap(updateProduct-> ServerResponse.ok().bodyValue(updateProduct));
     }
 }

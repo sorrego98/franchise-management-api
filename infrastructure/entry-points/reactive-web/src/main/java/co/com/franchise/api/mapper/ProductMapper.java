@@ -1,6 +1,7 @@
 package co.com.franchise.api.mapper;
 
 import co.com.franchise.api.dto.CreateProducRequest;
+import co.com.franchise.api.dto.UpdateProductRequest;
 import co.com.franchise.model.product.Product;
 
 public class ProductMapper {
@@ -12,6 +13,12 @@ public class ProductMapper {
                 .name(request.getName())
                 .stock(request.getStock())
                 .branchId(request.getBranchId())
+                .build();
+    }
+
+    public static Product toDomain(UpdateProductRequest request){
+        return Product.builder()
+                .name(request.getName())
                 .build();
     }
 }

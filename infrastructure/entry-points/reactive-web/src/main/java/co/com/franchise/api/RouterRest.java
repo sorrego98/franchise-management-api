@@ -28,6 +28,9 @@ public class RouterRest {
                 ).andRoute(
                         POST("/api/products"),
                 handler::createProduct
+                ).andRoute(
+                PUT("/api/products/{id}"),
+                handler::updateProduct
         );
     }
 }
