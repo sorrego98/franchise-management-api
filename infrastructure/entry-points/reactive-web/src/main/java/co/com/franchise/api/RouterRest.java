@@ -35,6 +35,9 @@ public class RouterRest {
                  ).andRoute(
                 DELETE("/api/products/{id}"),
                 handler::deleteProduct
+                ).andRoute(
+                PUT("/api/products/{id}/stock"),
+                handler::updateStock
         );
     }
 }
