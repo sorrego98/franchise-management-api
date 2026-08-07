@@ -1,6 +1,7 @@
 package co.com.franchise.api.mapper;
 
 import co.com.franchise.api.dto.CreateFranchiseRequest;
+import co.com.franchise.api.dto.UpdateFranchiseRequest;
 import co.com.franchise.model.franchise.Franchise;
 
 public class FranchiseMapper {
@@ -9,6 +10,12 @@ public class FranchiseMapper {
     }
 
     public static Franchise toDomain(CreateFranchiseRequest request){
+        return Franchise.builder()
+                .name(request.getName())
+                .build();
+    }
+
+    public static Franchise toDomain(UpdateFranchiseRequest request){
         return Franchise.builder()
                 .name(request.getName())
                 .build();
