@@ -22,6 +22,9 @@ public class RouterRest {
                 ).andRoute(
                         POST("/api/branches"),
                 handler::createBranch
+                ).andRoute(
+                        PUT("/api/branches/{id}"),
+                handler::updateBranch
         );
     }
 }

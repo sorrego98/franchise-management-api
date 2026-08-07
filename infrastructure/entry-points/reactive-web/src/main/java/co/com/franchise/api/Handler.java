@@ -1,6 +1,7 @@
 package co.com.franchise.api;
 
 import co.com.franchise.api.dto.CreateBranchRequest;
+import co.com.franchise.api.dto.UpdateBranchRequest;
 import co.com.franchise.api.mapper.BranchMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -10,6 +11,7 @@ import reactor.core.publisher.Mono;
 import co.com.franchise.usecase.createfranchise.CreateFranchiseUseCase;
 import co.com.franchise.usecase.updatefranchise.UpdateFranchiseUseCase;
 import co.com.franchise.usecase.createbranch.CreatebranchUseCase;
+import co.com.franchise.usecase.updatebranch.UpdatebranchUseCase;
 import co.com.franchise.api.dto.CreateFranchiseRequest;
 import co.com.franchise.api.dto.UpdateFranchiseRequest;
 import co.com.franchise.api.mapper.FranchiseMapper;
@@ -20,6 +22,7 @@ public class Handler {
 private final CreateFranchiseUseCase createFranchiseUseCase;
 private final UpdateFranchiseUseCase updateFranchiseUseCase;
 private final CreatebranchUseCase createbranchUseCase;
+private final UpdatebranchUseCase updatebranchUseCase;
 
     public Mono<ServerResponse> listenGETUseCase(ServerRequest serverRequest) {
         // useCase.logic();
@@ -55,6 +58,15 @@ private final CreatebranchUseCase createbranchUseCase;
                 .map(BranchMapper::toDomain)
                 .flatMap(createbranchUseCase::execute)
                 .flatMap(branch -> ServerResponse.ok().bodyValue(branch));
+    }
+
+    public Mono<ServerResponse> updateBranch(ServerRequest serverRequest ) {
+        String id = serverRequest.pathVariable("id");
+
+        return serverRequest.bodyToMono(UpdateBranchRequest.class)
+                .map(BranchMapper::toDomain)
+                .flatMap(branch -> updatebranchUseCase.execute(id, branch))
+                .flatMap(updateBranches -> ServerResponse.ok().bodyValue(updateBranches));
     }
 
 }
