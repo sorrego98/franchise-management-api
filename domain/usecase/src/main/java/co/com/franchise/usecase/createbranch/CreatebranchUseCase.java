@@ -11,7 +11,6 @@ public class CreatebranchUseCase {
     private final BranchRepository branchRepository;
     private final FranchiseRepository franchiseRepository;
 
-
     public CreatebranchUseCase(
             BranchRepository branchRepository,
             FranchiseRepository franchiseRepository

@@ -1,0 +1,17 @@
+package co.com.franchise.api.mapper;
+
+import co.com.franchise.api.dto.CreateProducRequest;
+import co.com.franchise.model.product.Product;
+
+public class ProductMapper {
+
+    private ProductMapper() {}
+
+    public static Product toDomain(CreateProducRequest request){
+        return Product.builder()
+                .name(request.getName())
+                .stock(request.getStock())
+                .branchId(request.getBranchId())
+                .build();
+    }
+}

@@ -1,8 +1,8 @@
 package co.com.franchise.api;
 
-import co.com.franchise.api.dto.CreateBranchRequest;
-import co.com.franchise.api.dto.UpdateBranchRequest;
+import co.com.franchise.api.dto.*;
 import co.com.franchise.api.mapper.BranchMapper;
+import co.com.franchise.api.mapper.ProductMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
@@ -12,8 +12,7 @@ import co.com.franchise.usecase.createfranchise.CreateFranchiseUseCase;
 import co.com.franchise.usecase.updatefranchise.UpdateFranchiseUseCase;
 import co.com.franchise.usecase.createbranch.CreatebranchUseCase;
 import co.com.franchise.usecase.updatebranch.UpdatebranchUseCase;
-import co.com.franchise.api.dto.CreateFranchiseRequest;
-import co.com.franchise.api.dto.UpdateFranchiseRequest;
+import co.com.franchise.usecase.createproduct.CreateProductUseCase;
 import co.com.franchise.api.mapper.FranchiseMapper;
 
 @Component
@@ -23,6 +22,7 @@ private final CreateFranchiseUseCase createFranchiseUseCase;
 private final UpdateFranchiseUseCase updateFranchiseUseCase;
 private final CreatebranchUseCase createbranchUseCase;
 private final UpdatebranchUseCase updatebranchUseCase;
+private final CreateProductUseCase createProductUseCase;
 
     public Mono<ServerResponse> listenGETUseCase(ServerRequest serverRequest) {
         // useCase.logic();
@@ -69,4 +69,10 @@ private final UpdatebranchUseCase updatebranchUseCase;
                 .flatMap(updateBranches -> ServerResponse.ok().bodyValue(updateBranches));
     }
 
+    public Mono<ServerResponse> createProduct(ServerRequest serverRequest ) {
+        return serverRequest.bodyToMono(CreateProducRequest.class)
+                .map(ProductMapper::toDomain)
+                .flatMap(createProductUseCase::execute)
+                .flatMap(product-> ServerResponse.ok().bodyValue(product));
+    }
 }
