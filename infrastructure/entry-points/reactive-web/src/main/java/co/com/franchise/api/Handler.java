@@ -14,6 +14,7 @@ import co.com.franchise.usecase.createbranch.CreatebranchUseCase;
 import co.com.franchise.usecase.updatebranch.UpdatebranchUseCase;
 import co.com.franchise.usecase.createproduct.CreateProductUseCase;
 import co.com.franchise.usecase.updateproduct.UpdateproductUseCase;
+import co.com.franchise.usecase.deleteproduct.DeleteproductUseCase;
 import co.com.franchise.api.mapper.FranchiseMapper;
 
 @Component
@@ -25,6 +26,7 @@ private final CreatebranchUseCase createbranchUseCase;
 private final UpdatebranchUseCase updatebranchUseCase;
 private final CreateProductUseCase createProductUseCase;
 private final UpdateproductUseCase updateProductUseCase;
+private final DeleteproductUseCase deleteProductUseCase;
 
     public Mono<ServerResponse> listenGETUseCase(ServerRequest serverRequest) {
         // useCase.logic();
@@ -85,5 +87,12 @@ private final UpdateproductUseCase updateProductUseCase;
                 .map(ProductMapper::toDomain)
                 .flatMap(product -> updateProductUseCase.execute(id, product))
                 .flatMap(updateProduct-> ServerResponse.ok().bodyValue(updateProduct));
+    }
+
+    public Mono<ServerResponse> deleteProduct(ServerRequest serverRequest ) {
+        String id = serverRequest.pathVariable("id");
+
+        return deleteProductUseCase.execute(id)
+                .then(ServerResponse.noContent().build());
     }
 }
