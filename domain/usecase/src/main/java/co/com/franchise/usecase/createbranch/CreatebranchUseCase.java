@@ -35,7 +35,7 @@ public class CreatebranchUseCase {
 
         return franchiseRepository.findById(branch.getFranchiseId())
                 .switchIfEmpty(
-                        Mono.error(new ResourceNotFoundException("Franchise nor found."))
+                        Mono.error(new ResourceNotFoundException("Franchise not found."))
                 )
                 .flatMap(franchise -> branchRepository.save(branch));
     }

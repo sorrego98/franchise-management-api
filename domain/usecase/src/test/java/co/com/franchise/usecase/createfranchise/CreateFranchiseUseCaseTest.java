@@ -27,7 +27,7 @@ public class CreateFranchiseUseCaseTest {
     @Test
     void shouldCreateFranchiseWhenNameIsValid(){
         Franchise franchise = Franchise.builder()
-                .id("987")
+                .id("f-987")
                 .name("Franchise 1")
                 .build();
 

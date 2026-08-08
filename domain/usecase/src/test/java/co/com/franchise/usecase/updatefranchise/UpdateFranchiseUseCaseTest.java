@@ -27,7 +27,7 @@ public class UpdateFranchiseUseCaseTest {
     @Test
     void shouldUpdateFranchiseWhenNameIsValid(){
         Franchise currentFranchise = Franchise.builder()
-                .id("987")
+                .id("f-987")
                 .name("Franchise 1")
                 .build();
 
@@ -35,38 +35,38 @@ public class UpdateFranchiseUseCaseTest {
                 .name("Franchise 2")
                 .build();
 
-        when(franchiseRepository.findById("987"))
+        when(franchiseRepository.findById("f-987"))
                 .thenReturn(Mono.just(currentFranchise));
 
         when(franchiseRepository.save(currentFranchise))
                 .thenReturn(Mono.just(currentFranchise));
 
-        StepVerifier.create(updateFranchiseUseCase.execute("987", franchiseToUpdate))
+        StepVerifier.create(updateFranchiseUseCase.execute("f-987", franchiseToUpdate))
                 .expectNextMatches(franchise ->
-                        franchise.getId().equals("987") &&
+                        franchise.getId().equals("f-987") &&
                                 franchise.getName().equals("Franchise 2"))
                 .verifyComplete();
 
-        verify(franchiseRepository).findById("987");
+        verify(franchiseRepository).findById("f-987");
         verify(franchiseRepository).save(currentFranchise);
     }
 
     @Test
     void shouldReturnErrorIfFranchiseNotFound(){
-        Franchise franchiseToUtpdate = Franchise.builder()
+        Franchise franchiseToUpdate = Franchise.builder()
                 .name("Franchise 2")
                 .build();
 
-        when(franchiseRepository.findById("987"))
+        when(franchiseRepository.findById("f-987"))
                 .thenReturn(Mono.empty());
 
-        StepVerifier.create(updateFranchiseUseCase.execute("987", franchiseToUtpdate))
+        StepVerifier.create(updateFranchiseUseCase.execute("f-987", franchiseToUpdate))
                 .expectErrorMatches(error ->
                         error instanceof ResourceNotFoundException &&
                         error.getMessage().equals("Franchise not found."))
                 .verify();
 
-        verify(franchiseRepository).findById("987");
+        verify(franchiseRepository).findById("f-987");
         verify(franchiseRepository, never()).save(any());
     }
 
@@ -76,7 +76,7 @@ public class UpdateFranchiseUseCaseTest {
                 .name(null)
                 .build();
 
-        StepVerifier.create(updateFranchiseUseCase.execute("987", franchiseToUpdate))
+        StepVerifier.create(updateFranchiseUseCase.execute("f-987", franchiseToUpdate))
                 .expectErrorMatches(error ->
                         error instanceof IllegalArgumentException &&
                                 error.getMessage().equals("Franchise name cannot be null or blank."))
@@ -92,7 +92,7 @@ public class UpdateFranchiseUseCaseTest {
                 .name("")
                 .build();
 
-        StepVerifier.create(updateFranchiseUseCase.execute("987", franchiseToUpdate))
+        StepVerifier.create(updateFranchiseUseCase.execute("f-987", franchiseToUpdate))
                 .expectErrorMatches(error ->
                         error instanceof IllegalArgumentException &&
                                 error.getMessage().equals("Franchise name cannot be null or blank."))
