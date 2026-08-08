@@ -15,7 +15,7 @@ public class UpdatestockUseCase {
     public Mono<Product> execute(String id, Integer stock){
         if (stock == null || stock < 0) {
             return Mono.error(new IllegalArgumentException(
-                            "Product name cannot be null or negative."
+                            "Stock cannot be null or negative."
                     )
             );
         }
