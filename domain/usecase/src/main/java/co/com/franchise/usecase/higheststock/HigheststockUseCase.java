@@ -1,13 +1,10 @@
 package co.com.franchise.usecase.higheststock;
 
-import co.com.franchise.model.branch.Branch;
 import co.com.franchise.model.branch.gateways.BranchRepository;
 import co.com.franchise.model.product.Product;
 import co.com.franchise.model.product.gateways.ProductRepository;
-import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Flux;
 
-//@RequiredArgsConstructor
 public class HigheststockUseCase {
 
     private final BranchRepository branchRepository;

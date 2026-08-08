@@ -2,9 +2,9 @@ package co.com.franchise.usecase.updatefranchise;
 
 import co.com.franchise.model.franchise.Franchise;
 import co.com.franchise.model.franchise.gateways.FranchiseRepository;
+import co.com.franchise.usecase.exception.ResourceNotFoundException;
 import reactor.core.publisher.Mono;
 
-//@RequiredArgsConstructor
 public class UpdateFranchiseUseCase {
     private final FranchiseRepository repository;
 
@@ -15,13 +15,13 @@ public class UpdateFranchiseUseCase {
     public Mono<Franchise> execute(String id, Franchise franchise){
         if(franchise.getName()==null || franchise.getName().isBlank()){
             return Mono.error(new IllegalArgumentException(
-                    ("Franchise name cannot be null or blank"))
+                    ("Franchise name cannot be null or blank."))
             );
         }
 
         return repository.findById(id)
                 .switchIfEmpty(
-                        Mono.error(new IllegalArgumentException("Franchise not found"))
+                        Mono.error(new ResourceNotFoundException("Franchise not found."))
                 )
                 .flatMap(existingFranchise -> {
                    existingFranchise.setName(franchise.getName());

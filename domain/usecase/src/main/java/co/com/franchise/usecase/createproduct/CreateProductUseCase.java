@@ -3,9 +3,9 @@ package co.com.franchise.usecase.createproduct;
 import co.com.franchise.model.branch.gateways.BranchRepository;
 import co.com.franchise.model.product.Product;
 import co.com.franchise.model.product.gateways.ProductRepository;
+import co.com.franchise.usecase.exception.ResourceNotFoundException;
 import reactor.core.publisher.Mono;
 
-//@RequiredArgsConstructor
 public class CreateProductUseCase {
     private final ProductRepository productRepository;
     private final BranchRepository branchRepository;
@@ -41,7 +41,7 @@ public class CreateProductUseCase {
 
         return branchRepository.findById(product.getBranchId())
                 .switchIfEmpty(
-                        Mono.error(new IllegalArgumentException("Branch not found"))
+                        Mono.error(new ResourceNotFoundException("Branch not found."))
                 )
                 .flatMap(branch -> productRepository.save(product));
     }

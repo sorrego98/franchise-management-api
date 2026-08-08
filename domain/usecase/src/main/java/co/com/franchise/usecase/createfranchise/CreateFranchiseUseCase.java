@@ -14,7 +14,7 @@ public class CreateFranchiseUseCase {
     public Mono<Franchise>  execute(Franchise franchise){
         if(franchise.getName()==null || franchise.getName().isBlank()){
             return Mono.error(new IllegalArgumentException(
-                    ("Franchise name cannot be null or blank"))
+                    ("Franchise name cannot be null or blank."))
             );
         }
         return repository.save(franchise);

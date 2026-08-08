@@ -2,10 +2,9 @@ package co.com.franchise.usecase.updatebranch;
 
 import co.com.franchise.model.branch.Branch;
 import co.com.franchise.model.branch.gateways.BranchRepository;
-import lombok.RequiredArgsConstructor;
+import co.com.franchise.usecase.exception.ResourceNotFoundException;
 import reactor.core.publisher.Mono;
 
-//@RequiredArgsConstructor
 public class UpdatebranchUseCase {
     private final BranchRepository branchRepository;
 
@@ -23,7 +22,7 @@ public class UpdatebranchUseCase {
 
         return branchRepository.findById(id)
                 .switchIfEmpty(
-                        Mono.error(new IllegalArgumentException("Branch not found."))
+                        Mono.error(new ResourceNotFoundException("Branch not found."))
                 )
                 .flatMap(existingBranch -> {
                     existingBranch.setName(branch.getName());

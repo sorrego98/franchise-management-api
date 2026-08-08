@@ -2,10 +2,9 @@ package co.com.franchise.usecase.updatestock;
 
 import co.com.franchise.model.product.Product;
 import co.com.franchise.model.product.gateways.ProductRepository;
-import lombok.RequiredArgsConstructor;
+import co.com.franchise.usecase.exception.ResourceNotFoundException;
 import reactor.core.publisher.Mono;
 
-//@RequiredArgsConstructor
 public class UpdatestockUseCase {
     private final ProductRepository productRepository;
 
@@ -23,7 +22,7 @@ public class UpdatestockUseCase {
 
         return productRepository.findById(id)
                 .switchIfEmpty(
-                        Mono.error(new IllegalArgumentException("Product not found."))
+                        Mono.error(new ResourceNotFoundException("Product not found."))
                 )
                 .flatMap(existingProduct ->{
                     existingProduct.setStock(stock);

@@ -3,10 +3,9 @@ package co.com.franchise.usecase.createbranch;
 import co.com.franchise.model.branch.Branch;
 import co.com.franchise.model.branch.gateways.BranchRepository;
 import co.com.franchise.model.franchise.gateways.FranchiseRepository;
-import lombok.RequiredArgsConstructor;
+import co.com.franchise.usecase.exception.ResourceNotFoundException;
 import reactor.core.publisher.Mono;
 
-//@RequiredArgsConstructor
 public class CreatebranchUseCase {
     private final BranchRepository branchRepository;
     private final FranchiseRepository franchiseRepository;
@@ -36,7 +35,7 @@ public class CreatebranchUseCase {
 
         return franchiseRepository.findById(branch.getFranchiseId())
                 .switchIfEmpty(
-                        Mono.error(new IllegalArgumentException("Franchise nor found"))
+                        Mono.error(new ResourceNotFoundException("Franchise nor found."))
                 )
                 .flatMap(franchise -> branchRepository.save(branch));
     }

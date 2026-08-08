@@ -4,6 +4,7 @@ import co.com.franchise.api.dto.*;
 import co.com.franchise.api.mapper.BranchMapper;
 import co.com.franchise.api.mapper.ProductMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
@@ -37,7 +38,7 @@ private final HigheststockUseCase higheststockUseCase;
         return serverRequest.bodyToMono(CreateFranchiseRequest.class)
                 .map(FranchiseMapper::toDomain)
                 .flatMap(createFranchiseUseCase::execute)
-                .flatMap(franchise -> ServerResponse.ok().bodyValue(franchise));
+                .flatMap(franchise -> ServerResponse.status(HttpStatus.CREATED).bodyValue(franchise));
     }
 
     public Mono<ServerResponse> updateFranchise(ServerRequest serverRequest) {
@@ -55,7 +56,7 @@ private final HigheststockUseCase higheststockUseCase;
         return serverRequest.bodyToMono(CreateBranchRequest.class)
                 .map(BranchMapper::toDomain)
                 .flatMap(createbranchUseCase::execute)
-                .flatMap(branch -> ServerResponse.ok().bodyValue(branch));
+                .flatMap(branch -> ServerResponse.status(HttpStatus.CREATED).bodyValue(branch));
     }
 
     public Mono<ServerResponse> updateBranch(ServerRequest serverRequest ) {
@@ -71,7 +72,7 @@ private final HigheststockUseCase higheststockUseCase;
         return serverRequest.bodyToMono(CreateProducRequest.class)
                 .map(ProductMapper::toDomain)
                 .flatMap(createProductUseCase::execute)
-                .flatMap(product-> ServerResponse.ok().bodyValue(product));
+                .flatMap(product-> ServerResponse.status(HttpStatus.CREATED).bodyValue(product));
     }
 
     public Mono<ServerResponse> updateProduct(ServerRequest serverRequest ) {
