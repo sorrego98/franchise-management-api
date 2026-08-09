@@ -9,7 +9,7 @@ spring:
     include: null
   data:
     mongodb:
-      uri: "mongodb://localhost:27017/franchise_db"
+      uri: ${SPRING_DATA_MONGODB_URI:mongodb://localhost:27017/franchise_db}
 management:
   endpoints:
     web:
