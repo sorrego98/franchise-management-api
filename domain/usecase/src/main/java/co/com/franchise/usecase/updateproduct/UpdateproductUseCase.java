@@ -1,0 +1,33 @@
+package co.com.franchise.usecase.updateproduct;
+
+import co.com.franchise.model.product.Product;
+import co.com.franchise.model.product.gateways.ProductRepository;
+import co.com.franchise.usecase.exception.ResourceNotFoundException;
+import reactor.core.publisher.Mono;
+
+public class UpdateproductUseCase {
+    private final ProductRepository productRepository;
+
+    public UpdateproductUseCase(ProductRepository productRepository){
+        this.productRepository = productRepository;
+    }
+
+    public Mono<Product> execute(String id, Product product){
+        if (product.getName() == null || product.getName().isBlank()) {
+            return Mono.error(new IllegalArgumentException(
+                            "Product name cannot be null or blank."
+                    )
+            );
+        }
+
+        return productRepository.findById(id)
+                .switchIfEmpty(
+                        Mono.error(new ResourceNotFoundException("Product not found."))
+                )
+                .flatMap(existingProduct ->{
+                    existingProduct.setName(product.getName());
+
+                    return productRepository.save(existingProduct);
+                });
+    }
+}

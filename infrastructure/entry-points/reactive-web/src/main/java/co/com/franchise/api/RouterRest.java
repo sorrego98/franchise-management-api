@@ -1,0 +1,47 @@
+package co.com.franchise.api;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.reactive.function.server.RouterFunction;
+import org.springframework.web.reactive.function.server.ServerResponse;
+
+import static org.springframework.web.reactive.function.server.RequestPredicates.GET;
+import static org.springframework.web.reactive.function.server.RequestPredicates.PUT;
+import static org.springframework.web.reactive.function.server.RequestPredicates.POST;
+import static org.springframework.web.reactive.function.server.RequestPredicates.DELETE;
+import static org.springframework.web.reactive.function.server.RouterFunctions.route;
+
+@Configuration
+public class RouterRest {
+    @Bean
+    public RouterFunction<ServerResponse> routerFunction(Handler handler) {
+        return route(
+                POST("/api/franchises"),
+                handler::createFranchise
+                ).andRoute(
+                        PUT("/api/franchises/{id}"),
+                handler::updateFranchise
+                ).andRoute(
+                        POST("/api/branches"),
+                handler::createBranch
+                ).andRoute(
+                        PUT("/api/branches/{id}"),
+                handler::updateBranch
+                ).andRoute(
+                        POST("/api/products"),
+                handler::createProduct
+                ).andRoute(
+                PUT("/api/products/{id}"),
+                handler::updateProduct
+                 ).andRoute(
+                DELETE("/api/products/{id}"),
+                handler::deleteProduct
+                ).andRoute(
+                PUT("/api/products/{id}/stock"),
+                handler::updateStock
+                ).andRoute(
+                GET("/api/franchises/{franchiseId}/products/highest-stock"),
+                handler::higheststock
+        );
+    }
+}
