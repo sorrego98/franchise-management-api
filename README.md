@@ -22,7 +22,7 @@ El proyecto se construye a partir del scaffold de Clean Architecture
 de Bancolombia y mantiene la separación entre dominio, casos de uso,
 adapters e infraestructura.
 
-[Scaffold CLean Architecture]([https://medium.com/bancolombia-tech/clean-architecture-aislando-los-detalles-4f9530f35d7a](https://bancolombia.github.io/scaffold-clean-architecture/docs/getting-started/))
+[Scaffold CLean Architecture](https://bancolombia.github.io/scaffold-clean-architecture/docs/getting-started/)
 
 ------------------------------------------------------------------------
 
